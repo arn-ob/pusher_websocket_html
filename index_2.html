@@ -24,21 +24,25 @@
         };
         chart.draw(dataTable, options);
         let year = 2015;
+        
         Pusher.logToConsole = true;
         const pusher = new Pusher(
           "a450962c2b0d777d14e1", // Replace with 'key' from dashboard
           {
             cluster: "ap2", // Replace with 'cluster' from dashboard
             forceTLS: true,
-            // authEndpoint: "http://localhost:8000/api/pusher/auth",
+            authEndpoint: "http://127.0.0.1:8000/api/pusher",
           }
         );
-        const channel = pusher.subscribe("price-btcusd");
+        
+        const channel = pusher.subscribe("private-price-btcusd");
+        
         channel.bind("new-price", (data) => {
           const row = [year++, data.value];
           dataTable.addRow(row);
           chart.draw(dataTable, options);
         });
+
       });
     </script>
   </body>
